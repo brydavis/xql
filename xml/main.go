@@ -25,8 +25,8 @@ type Node struct {
 }
 
 func main() {
-	n := Nodify("../data/hmis.xml")
-	n.Write("../data/hmis.json", 0700)
+	n := Nodify("../data/simple.xml")
+	n.Write("../data/simple.json", 0700)
 	n.Pretty(0)
 
 }
@@ -40,6 +40,8 @@ func Nodify(filename string) (n Node) {
 }
 
 func Elementize(dec *xml.Decoder) (data string) {
+	var parentNode string
+	var attrs bool
 	for {
 		token, err := dec.Token()
 		if err != nil {
@@ -48,9 +50,17 @@ func Elementize(dec *xml.Decoder) (data string) {
 
 		switch t := token.(type) {
 		case xml.StartElement:
+			parentNode = t.Name.Local
 			data += fmt.Sprintf("<%s>", t.Name.Local)
-			for _, v := range t.Attr {
-				data += fmt.Sprintf("<%s>%s</%s>", v.Name.Local, v.Value, v.Name.Local)
+			if len(t.Attr) > 0 {
+				attrs = true
+				// data += "<attr>"
+				for _, v := range t.Attr {
+					data += fmt.Sprintf("<%s>%s</%s>", v.Name.Local, v.Value, v.Name.Local)
+				}
+				// data += "</attr>"
+			} else {
+				attrs = false
 			}
 
 		case xml.EndElement:
@@ -59,7 +69,14 @@ func Elementize(dec *xml.Decoder) (data string) {
 		case xml.CharData:
 			val := strings.Replace(strings.TrimSpace(string(xml.CharData(t))), "\n", "", -1)
 			if val != "" {
-				data += fmt.Sprintf("<value>%s</value>", val)
+				// data += fmt.Sprintf("<value>%s</value>", val)
+				if attrs {
+					data += fmt.Sprintf("<%s>%s</%s>", parentNode, val, parentNode)
+
+				} else {
+					data += fmt.Sprintf("%s", val)
+
+				}
 			}
 
 		default:
@@ -78,7 +95,6 @@ func (n Node) Walk() interface{} {
 		x := make(map[string][]interface{})
 		for _, v := range n.Nodes {
 			x[v.XMLName.Local] = append(x[v.XMLName.Local], v.Walk())
-
 		}
 
 		y := make(map[string]interface{})
