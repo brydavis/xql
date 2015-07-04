@@ -26,4 +26,4 @@ When project completed, supported formats will include (in descending priority):
 <small>
 <strong>&copy; 2015 MIT License</strong>
 </small>
-# Info
+
