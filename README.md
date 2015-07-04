@@ -6,7 +6,7 @@ Two main purposes of project:
 - Transform dynamic datasets between common encoding formats. 
 - Query datasets of any data format using common SQL syntax
 
-When project completed, supported formats will include (in descending priority):
+When project complete, supported formats will include (in descending priority):
 - CSV
 - XML
 - JSON
