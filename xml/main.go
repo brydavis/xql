@@ -25,9 +25,11 @@ type Node struct {
 }
 
 func main() {
-	n := Nodify("../data/simple.xml")
-	n.Write("../data/simple.json", 0700)
-	n.Pretty(0)
+	n := Nodify("../data/complex.xml")
+	n.Write("../data/complex.json", 0700)
+
+	// n.Pretty(0)
+	// fmt.Println(Beautify("../data/data-example-2.json"))
 
 }
 
@@ -78,10 +80,10 @@ func Elementize(dec *xml.Decoder) (data string) {
 
 				}
 			}
-
+		case xml.ProcInst:
+			// fmt.Printf("not supported: %v\n", t)
 		default:
-			// fmt.Println(t)
-
+			fmt.Printf("type not supported: %v\n", t)
 		}
 	}
 	return
@@ -90,7 +92,6 @@ func Elementize(dec *xml.Decoder) (data string) {
 func (n Node) Walk() interface{} {
 	if len(n.Nodes) < 1 {
 		return string(n.Content)
-
 	} else {
 		x := make(map[string][]interface{})
 		for _, v := range n.Nodes {
@@ -99,15 +100,20 @@ func (n Node) Walk() interface{} {
 
 		y := make(map[string]interface{})
 		for k, v := range x {
-			if len(x[k]) == 1 {
-				switch v[0].(type) {
-				case float32, float64:
-					f, _ := strconv.ParseFloat(v[0].(string), 64)
-					y[k] = f // v[0].(float64)
-				case bool:
-					y[k] = v[0].(bool)
+			if vv := v[0]; len(x[k]) == 1 {
+				f, errFloat := strconv.ParseFloat(vv.(string), 64)
+				i, errInt := strconv.ParseInt(vv.(string), 10, 64)
+				b, errBool := strconv.ParseBool(vv.(string))
+
+				switch {
+				case errFloat == nil:
+					y[k] = f
+				case errInt == nil:
+					y[k] = i
+				case errBool == nil:
+					y[k] = b
 				default:
-					y[k] = v[0]
+					y[k] = vv
 				}
 			} else {
 				y[k] = v
@@ -126,24 +132,43 @@ func (n Node) Import() []byte {
 	}
 
 	b, _ := json.Marshal(y)
+
 	return b
+
 }
 
-func (n Node) Pretty(indent int) {
-	var tabs string
-	for i := 0; i < indent; i++ {
-		tabs += "\t"
-	}
+// func Comma(records [][]string) {
+// 	csvfile, err := os.Create("output.csv")
+// 	if err != nil {
+// 		fmt.Println("Error:", err)
+// 	}
+// 	defer csvfile.Close()
 
-	for k, v := range n.Nodes {
-		if len(v.Nodes) < 1 {
-			fmt.Printf("%s(%d) %s == content (%s)\n", tabs, k, strings.Title(strings.ToLower(v.XMLName.Local)), string(v.Content))
-		} else {
-			fmt.Printf("%s(%d) %s =>\n", tabs, k, strings.Title(strings.ToLower(v.XMLName.Local)))
-			v.Pretty(indent + 1)
-		}
-	}
-}
+// 	writer := csv.NewWriter(csvfile)
+// 	for _, record := range records {
+// 		err := writer.Write(record.([]string))
+// 		if err != nil {
+// 			fmt.Println("Error:", err)
+// 		}
+// 	}
+// 	writer.Flush()
+// }
+
+// func (n Node) Pretty(indent int) {
+// 	var tabs string
+// 	for i := 0; i < indent; i++ {
+// 		tabs += "\t"
+// 	}
+
+// 	for k, v := range n.Nodes {
+// 		if len(v.Nodes) < 1 {
+// 			fmt.Printf("%s(%d) %s == content (%s)\n", tabs, k, strings.Title(strings.ToLower(v.XMLName.Local)), string(v.Content))
+// 		} else {
+// 			fmt.Printf("%s(%d) %s =>\n", tabs, k, strings.Title(strings.ToLower(v.XMLName.Local)))
+// 			v.Pretty(indent + 1)
+// 		}
+// 	}
+// }
 
 func (n *Node) Write(name string, perm os.FileMode) {
 	j := n.Import()
@@ -161,7 +186,7 @@ func (n Node) Querify() {
 	// }
 }
 
-func Pretty(name string) (string, error) {
+func Beautify(name string) (string, error) {
 	b, err := ioutil.ReadFile(name)
 	if err != nil {
 		return "", err

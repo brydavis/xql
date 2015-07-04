@@ -4,6 +4,7 @@
       <title>Coca Cola</title>
       <group_id>1253</group_id>
       <price>6</price>
+      <tasty>true</tasty>
       <size>6 pack</size>
       <description>Fizzy and tastes great.</description>
    </product>
@@ -11,6 +12,8 @@
       <title>Coca Cola</title>
       <group_id>1253</group_id>
       <price>10</price>
+      <tasty></tasty>
+
       <size>12 pack</size>
       <description>Fizzy and tastes great.</description>
    </product>
@@ -18,6 +21,7 @@
       <title>Coca Cola</title>
       <group_id>1253</group_id>
       <price>12</price>
+      <tasty>false</tasty>
       <size>18 pack</size>
       <description>Fizzy and tastes great.</description>
    </product>
@@ -46,6 +50,7 @@
       <title>Sprite</title>
       <group_id>19283</group_id>
       <price>12</price>
+      <uint>-993246876237846786715623675162735</uint>
       <size>18 pack</size>
       <description>Not as good as Coca Cola.</description>
    </product>

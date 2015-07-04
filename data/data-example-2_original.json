@@ -1,0 +1,58 @@
+[
+  {
+    "Product Title":"Coca Cola",
+    "Group ID":1253,
+    "Price":6,
+    "Size":"6 pack",
+    "Description":"Fizzy and tastes great."
+  },
+  {
+    "Product Title":"Coca Cola",
+    "Group ID":1253,
+    "Price":10,
+    "Size":"12 pack",
+    "Description":"Fizzy and tastes great."
+  },
+  {
+    "Product Title":"Coca Cola",
+    "Group ID":1253,
+    "Price":12,
+    "Size":"18 pack",
+    "Description":"Fizzy and tastes great."
+  },
+  {
+    "Product Title":"Coca Cola",
+    "Group ID":1253,
+    "Price":99,
+    "Size":"300 can case",
+    "Description":"Fizzy and tastes great."
+  },
+  {
+    "Product Title":"Sprite",
+    "Group ID":19283,
+    "Price":6,
+    "Size":"6 pack",
+    "Description":"Not as good as Coca Cola."
+  },
+  {
+    "Product Title":"Sprite",
+    "Group ID":19283,
+    "Price":10,
+    "Size":"12 pack",
+    "Description":"Not as good as Coca Cola."
+  },
+  {
+    "Product Title":"Sprite",
+    "Group ID":19283,
+    "Price":12,
+    "Size":"18 pack",
+    "Description":"Not as good as Coca Cola."
+  },
+  {
+    "Product Title":"Sprite",
+    "Group ID":19283,
+    "Price":99,
+    "Size":"300 can case",
+    "Description":"Not as good as Coca Cola."
+  }
+]

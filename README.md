@@ -11,6 +11,7 @@ Upon project completion, supported formats will include (in descending order by 
 - XML
 - JSON
 - SQL
+- HTML
 - XLSX
 - TSV
 - BSON
