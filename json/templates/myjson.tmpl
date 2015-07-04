@@ -1,0 +1,14 @@
+package main // {{.LowerName}}
+
+{{.Struct}}
+
+func main() {
+	n:= NewStruct()
+	fmt.Println(n)
+}
+
+func NewStruct() {{.Name}} {
+	var j {{.Name}}
+	return j
+}
+

@@ -1,0 +1,50 @@
+[
+  {
+    "Product Title":"Soflyy T-Shirt",
+    "SKU":"999-X",
+    "Parent SKU":"",
+    "Price":null,
+    "Color":"",
+    "Description":"This shirt is awesome."
+  },
+  {
+    "Product Title":"Soflyy T-Shirt (blue)",
+    "SKU":"999-B",
+    "Parent SKU":"999-X",
+    "Price":15,
+    "Color":"blue",
+    "Description":""
+  },
+  {
+    "Product Title":"Soflyy T-Shirt (red)",
+    "SKU":"999-C",
+    "Parent SKU":"999-X",
+    "Price":15,
+    "Color":"red",
+    "Description":""
+  },
+  {
+    "Product Title":"Soflyy Mug",
+    "SKU":"777-X",
+    "Parent SKU":"",
+    "Price":null,
+    "Color":"",
+    "Description":"This mug is awesome."
+  },
+  {
+    "Product Title":"Soflyy Mug",
+    "SKU":"777-O",
+    "Parent SKU":"777-X",
+    "Price":9,
+    "Color":"orange",
+    "Description":""
+  },
+  {
+    "Product Title":"Soflyy Mug",
+    "SKU":"777-Y",
+    "Parent SKU":"777-X",
+    "Price":9,
+    "Color":"yellow",
+    "Description":""
+  }
+]

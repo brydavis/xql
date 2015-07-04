@@ -1,0 +1,58 @@
+[
+  {
+    "Product Title":"Apple Tree",
+    "Price":39,
+    "Rootstock":"M12",
+    "Height":36,
+    "Description":"Good tasting fruit."
+  },
+  {
+    "Product Title":"Apple Tree",
+    "Price":39,
+    "Rootstock":"M40",
+    "Height":36,
+    "Description":""
+  },
+  {
+    "Product Title":"Apple Tree",
+    "Price":39,
+    "Rootstock":"M12",
+    "Height":50,
+    "Description":""
+  },
+  {
+    "Product Title":"Apple Tree",
+    "Price":39,
+    "Rootstock":"M40",
+    "Height":50,
+    "Description":""
+  },
+  {
+    "Product Title":"Orange Tree",
+    "Price":53,
+    "Rootstock":"A67",
+    "Height":48,
+    "Description":"Bad tasting fruit."
+  },
+  {
+    "Product Title":"Orange Tree",
+    "Price":53,
+    "Rootstock":"B78",
+    "Height":48,
+    "Description":""
+  },
+  {
+    "Product Title":"Orange Tree",
+    "Price":70,
+    "Rootstock":"A67",
+    "Height":70,
+    "Description":""
+  },
+  {
+    "Product Title":"Orange Tree",
+    "Price":70,
+    "Rootstock":"B78",
+    "Height":70,
+    "Description":""
+  }
+]

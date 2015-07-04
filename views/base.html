@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/static/style.css">
+	<script type="text/javascript" src="/static/main.js"></script>
+	<style type="text/css">
+		.slim {
+			width: 75%;
+			margin: 100px auto; 
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="slim">
+			<form action="/" method="post">
+				<textarea name="query" type="text"></textarea>
+				<button type="submit">Run</button>
+			</form>
+ 
+			<pre id="query">{{.Query}}</pre>
+
+			<pre id="results">{{.Results}}</pre>
+		</div>
+	</div>
+
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		results.innerText = JSON.stringify(JSON.parse(results.innerText), null, 4)
+	})
+</script>
+
+</body>
+</html>

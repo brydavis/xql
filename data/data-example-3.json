@@ -1,0 +1,58 @@
+[
+  {
+    "Product Title":"Wagyu Tenderloin Steak",
+    "Price":null,
+    "Weight":"",
+    "Quantity":"",
+    "Description":"The most decadent, succulent cut of beef, ever."
+  },
+  {
+    "Product Title":"Wagyu Tenderloin Steak",
+    "Price":55,
+    "Weight":"6 oz",
+    "Quantity":"",
+    "Description":""
+  },
+  {
+    "Product Title":"Wagyu Tenderloin Steak",
+    "Price":65,
+    "Weight":"9 oz",
+    "Quantity":"",
+    "Description":""
+  },
+  {
+    "Product Title":"Wagyu Tenderloin Steak",
+    "Price":79,
+    "Weight":"12 oz",
+    "Quantity":"",
+    "Description":""
+  },
+  {
+    "Product Title":"Lamb Chops",
+    "Price":null,
+    "Weight":"",
+    "Quantity":"",
+    "Description":"These taste really good."
+  },
+  {
+    "Product Title":"Lamb Chops",
+    "Price":20,
+    "Weight":"",
+    "Quantity":"3 chops",
+    "Description":""
+  },
+  {
+    "Product Title":"Lamb Chops",
+    "Price":40,
+    "Weight":"",
+    "Quantity":"6 chops",
+    "Description":""
+  },
+  {
+    "Product Title":"Lamb Chops",
+    "Price":60,
+    "Weight":"",
+    "Quantity":"9 chops",
+    "Description":""
+  }
+]
