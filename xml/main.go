@@ -12,7 +12,6 @@ import (
 
 /* TODO
 - Generalize API for other formats
-- Transform data to actual data types
 - Integrate into "xql" package
 */
 
@@ -20,8 +19,6 @@ type Node struct {
 	XMLName xml.Name
 	Content []byte `xml:",innerxml"`
 	Nodes   []Node `xml:",any"`
-	// HardCopy bool
-	// FileName string
 }
 
 func main() {
@@ -30,7 +27,6 @@ func main() {
 
 	// n.Pretty(0)
 	// fmt.Println(Beautify("../data/data-example-2.json"))
-
 }
 
 func Nodify(filename string) (n Node) {
@@ -39,6 +35,76 @@ func Nodify(filename string) (n Node) {
 
 	xml.NewDecoder(reader).Decode(&n)
 	return
+}
+
+func (n Node) Import() []byte {
+	var y []interface{}
+	for _, v := range n.Nodes {
+		y = append(y, v.Walk())
+	}
+
+	b, _ := json.Marshal(y)
+	return b
+}
+
+func (n *Node) Write(name string, perm os.FileMode) {
+	j := n.Import()
+	ioutil.WriteFile(name, j, perm)
+}
+
+func (n Node) Walk() interface{} {
+	if len(n.Nodes) < 1 {
+		return string(n.Content)
+	} else {
+		x := make(map[string][]interface{})
+		for _, v := range n.Nodes {
+			x[v.XMLName.Local] = append(x[v.XMLName.Local], v.Walk())
+		}
+
+		y := make(map[string]interface{})
+		for k, v := range x {
+			if vv := v[0]; len(x[k]) == 1 {
+				f, errFloat := strconv.ParseFloat(vv.(string), 64)
+				i, errInt := strconv.ParseInt(vv.(string), 10, 64)
+				b, errBool := strconv.ParseBool(vv.(string))
+
+				switch {
+				case errFloat == nil:
+					y[k] = f
+				case errInt == nil:
+					y[k] = i
+				case errBool == nil:
+					y[k] = b
+				default:
+					y[k] = vv
+				}
+			} else {
+				y[k] = v
+			}
+		}
+		return y
+	}
+	var v interface{}
+	return v
+}
+
+func Beautify(name string) (string, error) {
+	b, err := ioutil.ReadFile(name)
+	if err != nil {
+		return "", err
+	}
+
+	var data interface{}
+
+	if err := json.Unmarshal(b, &data); err != nil {
+		return "", err
+	}
+	b, err = json.MarshalIndent(data, "", "  ")
+	if err != nil {
+		return "", err
+	}
+
+	return string(b), nil
 }
 
 func Elementize(dec *xml.Decoder) (data string) {
@@ -80,61 +146,15 @@ func Elementize(dec *xml.Decoder) (data string) {
 
 				}
 			}
+
 		case xml.ProcInst:
 			// fmt.Printf("not supported: %v\n", t)
+
 		default:
 			fmt.Printf("type not supported: %v\n", t)
 		}
 	}
 	return
-}
-
-func (n Node) Walk() interface{} {
-	if len(n.Nodes) < 1 {
-		return string(n.Content)
-	} else {
-		x := make(map[string][]interface{})
-		for _, v := range n.Nodes {
-			x[v.XMLName.Local] = append(x[v.XMLName.Local], v.Walk())
-		}
-
-		y := make(map[string]interface{})
-		for k, v := range x {
-			if vv := v[0]; len(x[k]) == 1 {
-				f, errFloat := strconv.ParseFloat(vv.(string), 64)
-				i, errInt := strconv.ParseInt(vv.(string), 10, 64)
-				b, errBool := strconv.ParseBool(vv.(string))
-
-				switch {
-				case errFloat == nil:
-					y[k] = f
-				case errInt == nil:
-					y[k] = i
-				case errBool == nil:
-					y[k] = b
-				default:
-					y[k] = vv
-				}
-			} else {
-				y[k] = v
-			}
-		}
-		return y
-	}
-	var v interface{}
-	return v
-}
-
-func (n Node) Import() []byte {
-	var y []interface{}
-	for _, v := range n.Nodes {
-		y = append(y, v.Walk())
-	}
-
-	b, _ := json.Marshal(y)
-
-	return b
-
 }
 
 // func Comma(records [][]string) {
@@ -170,37 +190,13 @@ func (n Node) Import() []byte {
 // 	}
 // }
 
-func (n *Node) Write(name string, perm os.FileMode) {
-	j := n.Import()
-	ioutil.WriteFile(name, j, perm)
-}
-
-func (n Node) Querify() {
-	// for k, v := range n.Nodes {
-	// 	if len(v.Nodes) < 1 {
-	// 		fmt.Printf("%s(%d) %s == content node (%s)\n", k, strings.Title(strings.ToLower(v.XMLName.Local)), string(v.Content))
-	// 	} else {
-	// 		fmt.Printf("%s(%d) %s == parent node\n", k, strings.Title(strings.ToLower(v.XMLName.Local)))
-	// 		v.Pretty()
-	// 	}
-	// }
-}
-
-func Beautify(name string) (string, error) {
-	b, err := ioutil.ReadFile(name)
-	if err != nil {
-		return "", err
-	}
-
-	var data interface{}
-
-	if err := json.Unmarshal(b, &data); err != nil {
-		return "", err
-	}
-	b, err = json.MarshalIndent(data, "", "  ")
-	if err != nil {
-		return "", err
-	}
-
-	return string(b), nil
-}
+// func (n Node) Querify() {
+// for k, v := range n.Nodes {
+// 	if len(v.Nodes) < 1 {
+// 		fmt.Printf("%s(%d) %s == content node (%s)\n", k, strings.Title(strings.ToLower(v.XMLName.Local)), string(v.Content))
+// 	} else {
+// 		fmt.Printf("%s(%d) %s == parent node\n", k, strings.Title(strings.ToLower(v.XMLName.Local)))
+// 		v.Pretty()
+// 	}
+// }
+// }

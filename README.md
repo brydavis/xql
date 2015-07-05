@@ -18,6 +18,9 @@ Upon project completion, supported formats will include (in descending order by 
 - SHP
 - NetCDF
 - HDF5
+- YAML
+- TOML
+
 
 
 <br>

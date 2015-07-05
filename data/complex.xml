@@ -15,6 +15,7 @@
       <catalog_item gender="Women's">
          <item_number>RRX9856</item_number>
          <price>42.50</price>
+         <discount>1/2</discount>
          <size description="Small">
             <color_swatch image="red_cardigan.jpg">Red</color_swatch>
             <color_swatch image="navy_cardigan.jpg">Navy</color_swatch>
