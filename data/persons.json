@@ -1,0 +1,38 @@
+[
+		  {
+		  	"first":"Ruby",
+		  	"last":"Davis",
+		  	"age": 4.5,
+		  	"school": "ReWA Preschool",
+		    "likes": [
+		      "circus",
+		      "princesses",
+		      "school"
+		    ],
+		    "female": true,
+		    "nums": [
+		      7,
+		      9.2,
+		      100.9
+		    ],
+		    "friends": [
+		    	{
+		    		"name": "Hank",
+		    		"age": 5,
+		    		"female": false
+		    	},
+		    	{
+		    		"name": "Lucy",
+		    		"age": 4,
+		    		"female": true
+		    	},
+		    	{
+		    		"name": "Lula",
+		    		"age": 2,
+		    		"female": true
+		    	}
+		    ]
+		     
+		  }
+
+		]

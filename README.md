@@ -12,8 +12,10 @@ Upon project completion, supported formats will include (in descending order by 
 - JSON
 - SQL
 - HTML
+- GO
 - XLSX
 - TSV
+- XSD
 - BSON
 - SHP
 - NetCDF
