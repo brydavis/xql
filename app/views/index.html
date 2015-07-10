@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/static/style.css">
+	<script type="text/javascript" src="/static/main.js"></script>
+</head>
+<body>
+<div class="container">
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-5">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#"><b>XQL</b></a>
+			</div>
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-5">
+				<p class="h4 navbar-text navbar-right"></p>
+			</div>
+		</div>
+	</nav>
+	<div class="col-md-5">
+		<form method="post" action="/">
+			<textarea name="query"></textarea>
+			<button type="submit">RUN</button>
+		</form>
+		<h5>Last Query</h5>
+		<pre>{{.Query}}</pre>
+		<h5>Database Tables</h5>
+		<pre>{{range $table, $schema := .Tables}}
+table: {{$table}}
+schema: 
+{{Itemize $schema}}
+			{{end}}
+		</pre>
+
+
+	</div>
+	<div class="col-md-7">
+		<h5>Results</h5>
+		<pre id="results">{{.Data}}</pre>
+	</div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function (e) {
+	var results = $("pre#results")
+	results.text(JSON.stringify(JSON.parse(results.text()),null, 4))
+})
+
+
+
+
+
+</script>
+</body>
