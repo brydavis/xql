@@ -9,13 +9,11 @@ import (
 )
 
 func main() {
-	x := json2xml("../data/odd.json")
+	x := J2X("../../../data/complex.json")
 	fmt.Printf("dataset:\n\n%s\n", x)
 }
 
-func json2xml(filename string) (data string) {
-	datefmt := "Jan 1, 2006 1:01pm (UTC)"
-
+func J2X(filename string) (data string) {
 	base := path.Base(filename)
 	base = base[:len(base)-len(path.Ext(base))]
 	raw, _ := ioutil.ReadFile(filename)
@@ -26,29 +24,28 @@ func json2xml(filename string) (data string) {
 	switch t := v.(type) {
 	case []interface{}:
 		for _, val := range t {
-			data += fmt.Sprintf("<%s>%v</%s>\n", base, Walk(val, ""), base)
+			data += fmt.Sprintf("<%s>%v</%s>\n", base, walk(val, ""), base)
 		}
 	case map[string]interface{}:
 		for key, val := range t {
-			data += fmt.Sprintf("<%s>%v</%s>\n", base, Walk(val, key), base)
+			data += fmt.Sprintf("<%s>%v</%s>\n", base, walk(val, key), base)
 		}
 	}
-	return fmt.Sprintf("<xml created=\"%v\">%s</xml>", time.Now().Format(datefmt), data)
-
+	return fmt.Sprintf("<xml created=\"%v\">%s</xml>", time.Now().Format("Jan 1, 2006 1:01pm (UTC)"), data)
 }
 
-func Walk(v interface{}, parent string) interface{} {
+func walk(v interface{}, parent string) interface{} {
 	switch t := v.(type) {
 	case []interface{}:
 		var data string
 		for _, val := range t {
-			data += fmt.Sprintf("%v", Walk(val, parent))
+			data += fmt.Sprintf("%v", walk(val, parent))
 		}
 		return data
 	case map[string]interface{}:
 		var data string
 		for key, val := range t {
-			data += fmt.Sprintf("%v", Walk(val, key))
+			data += fmt.Sprintf("%v", walk(val, key))
 		}
 		return data
 	case float64:
@@ -61,10 +58,3 @@ func Walk(v interface{}, parent string) interface{} {
 		return fmt.Sprintf("<%v>%v</%v>", parent, t, parent)
 	}
 }
-
-// func Indent(tabs int) (indent string) {
-// 	for i := 0; i < tabs; i++ {
-// 		indent += "\t"
-// 	}
-// 	return
-// }

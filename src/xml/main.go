@@ -5,60 +5,46 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io/ioutil"
-	"os"
 	"strconv"
 	"strings"
 )
 
-/* TODO
-- Generalize API for other formats
-- Integrate into "xql" package
-*/
-
-type Node struct {
+type xmlNode struct {
 	XMLName xml.Name
-	Content []byte `xml:",innerxml"`
-	Nodes   []Node `xml:",any"`
+	Content []byte    `xml:",innerxml"`
+	Nodes   []xmlNode `xml:",any"`
 }
 
 func main() {
-	n := Nodify("../data/complex.xml")
-	n.Write("../data/complex.json", 0700)
+	n := X2J("../../data/complex.xml")
+	ioutil.WriteFile("../../data/complex.json", n, 0700)
 
 	// n.Pretty(0)
 	// fmt.Println(Beautify("../data/data-example-2.json"))
 }
 
-func Nodify(filename string) (n Node) {
+func X2J(filename string) []byte { //(n xmlNode) {
+	var n xmlNode
 	b, _ := ioutil.ReadFile(filename)
 	reader := strings.NewReader(Elementize(xml.NewDecoder(strings.NewReader(string(b)))))
 
 	xml.NewDecoder(reader).Decode(&n)
-	return
-}
-
-func (n Node) Import() []byte {
 	var y []interface{}
 	for _, v := range n.Nodes {
-		y = append(y, v.Walk())
+		y = append(y, v.walk())
 	}
 
-	b, _ := json.Marshal(y)
-	return b
+	j, _ := json.Marshal(y)
+	return j
 }
 
-func (n *Node) Write(name string, perm os.FileMode) {
-	j := n.Import()
-	ioutil.WriteFile(name, j, perm)
-}
-
-func (n Node) Walk() interface{} {
+func (n xmlNode) walk() interface{} {
 	if len(n.Nodes) < 1 {
 		return string(n.Content)
 	} else {
 		x := make(map[string][]interface{})
 		for _, v := range n.Nodes {
-			x[v.XMLName.Local] = append(x[v.XMLName.Local], v.Walk())
+			x[v.XMLName.Local] = append(x[v.XMLName.Local], v.walk())
 		}
 
 		y := make(map[string]interface{})
