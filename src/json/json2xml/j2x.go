@@ -28,7 +28,9 @@ func J2X(filename string) (data string) {
 		}
 	case map[string]interface{}:
 		for key, val := range t {
-			data += fmt.Sprintf("<%s>%v</%s>\n", base, walk(val, key), base)
+			// data += fmt.Sprintf("<%s>%v</%s>\n", base, walk(val, key), base)
+			data += fmt.Sprintf("%v", walk(val, key))
+
 		}
 	}
 	return fmt.Sprintf("<xml created=\"%v\">%s</xml>", time.Now().Format("Jan 1, 2006 1:01pm (UTC)"), data)
@@ -44,9 +46,15 @@ func walk(v interface{}, parent string) interface{} {
 		return data
 	case map[string]interface{}:
 		var data string
+
+		data += fmt.Sprintf("<%s>", parent)
+
 		for key, val := range t {
 			data += fmt.Sprintf("%v", walk(val, key))
 		}
+
+		data += fmt.Sprintf("</%s>", parent)
+
 		return data
 	case float64:
 		return fmt.Sprintf("<%v>%v</%v>", parent, t, parent)
