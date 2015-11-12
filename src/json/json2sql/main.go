@@ -7,7 +7,6 @@ import (
 	"io/ioutil"
 	"log"
 	"path"
-	"strconv"
 	"strings"
 )
 
@@ -25,7 +24,7 @@ func ImportJSON(filename string) {
 	base := path.Base(filename)
 	base = base[:len(base)-len(path.Ext(base))]
 
-	data, _ := ioutil.ReadFile(datafile)
+	data, _ := ioutil.ReadFile(filename)
 	var f interface{}
 	if err := json.Unmarshal(data, &f); err != nil || f == nil {
 		fmt.Println(err)
@@ -39,62 +38,62 @@ func ImportJSON(filename string) {
 		n = append(n, m)
 		var o interface{}
 		o = n
-		ImportJSON(Scan base)
+		ImportJSON(base)
 	case []interface{}:
-		ImportJSON(Scan base)
+		ImportJSON(base)
 	}
 
 }
 
-func (base *Base) Exec() error {
-	db, err := sql.Open("sqlite3", "./"+base.Name)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer db.Close()
+// func (base *Base) Exec() error {
+// 	db, err := sql.Open("sqlite3", "./"+base.Name)
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
+// 	defer db.Close()
 
-	rows, err := db.Query(base.Query + `;`)
-	if err != nil {
-		log.Fatal(err)
-	}
+// 	rows, err := db.Query(base.Query + `;`)
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
 
-	defer rows.Close()
+// 	defer rows.Close()
 
-	columns, _ := rows.Columns()
-	count := len(columns)
-	values := make([]interface{}, count)
-	valuePtrs := make([]interface{}, count)
+// 	columns, _ := rows.Columns()
+// 	count := len(columns)
+// 	values := make([]interface{}, count)
+// 	valuePtrs := make([]interface{}, count)
 
-	for rows.Next() {
-		for i, _ := range columns {
-			valuePtrs[i] = &values[i]
-		}
+// 	for rows.Next() {
+// 		for i, _ := range columns {
+// 			valuePtrs[i] = &values[i]
+// 		}
 
-		rows.Scan(valuePtrs...)
-		// store := make(map[string]interface{})
-		var store [][]string // [][]string{{"item1", "value1"}, {"item2", "value2"}, {"item3", "value3"}}
-		for i, col := range columns {
-			var v interface{}
-			val := values[i]
-			b, ok := val.([]byte)
+// 		rows.Scan(valuePtrs...)
+// 		// store := make(map[string]interface{})
+// 		var store [][]string // [][]string{{"item1", "value1"}, {"item2", "value2"}, {"item3", "value3"}}
+// 		for i, col := range columns {
+// 			var v interface{}
+// 			val := values[i]
+// 			b, ok := val.([]byte)
 
-			if ok {
-				v = string(b)
-			} else {
-				v = val
-			}
-			switch v.(type) {
-			case string:
-				store = append(store, []string{col, v.(string)})
-			case int, int32, int64:
-				store = append(store, []string{col, strconv.Itoa(int(v.(int64)))})
-			}
-		}
-		// base.Results = append(base.Results, store)
-		base.Results = append(base.Results, store)
-	}
-	return nil
-}
+// 			if ok {
+// 				v = string(b)
+// 			} else {
+// 				v = val
+// 			}
+// 			switch v.(type) {
+// 			case string:
+// 				store = append(store, []string{col, v.(string)})
+// 			case int, int32, int64:
+// 				store = append(store, []string{col, strconv.Itoa(int(v.(int64)))})
+// 			}
+// 		}
+// 		// base.Results = append(base.Results, store)
+// 		base.Results = append(base.Results, store)
+// 	}
+// 	return nil
+// }
 
 func ScanJSON(f interface{}, db *sql.DB, tablename string) {
 	keys := make(map[string]string)
@@ -199,8 +198,8 @@ func ScanJSON(f interface{}, db *sql.DB, tablename string) {
 }
 
 func main() {
-	base := ImportJSON("foo.db")
-	base.CreateTable("../data/odd.json", "Accounts")
+	ImportJSON("foo.db")
+	// base.CreateTable("complex.json", "Accounts")
 	// base.Select("ProductTitle", "Price", "Color").From("products")
 	// base.Query = `select "Price", "Color", 50 as Fifty from products`
 	// if err := base.Exec(); err != nil {

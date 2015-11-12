@@ -10,7 +10,7 @@ import (
 var Tables []string
 
 func main() {
-	EncodeJSON("../data/odd.json")
+	EncodeJSON("complex.json")
 
 	fmt.Printf("\n%+v\n", Tables)
 }
